@@ -8,7 +8,7 @@ RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install locales -y
 RUN apt-get install -y tzdata
-RUN npm install -g npm@9.2.0
+RUN npm install -g npm@latest
 
 # Language configuration
 RUN echo "America/Recife" > /etc/timezone

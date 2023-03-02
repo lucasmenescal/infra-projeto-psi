@@ -44,10 +44,10 @@ services:
     depends_on:
       - database
     volumes:
-      - ./front/project:/workspace
+      - ./front/project/money-wise:/workspace
     ports:
       - "3003:3000"
-    stdin_open: true
+    command: sh -c "npm install --silent && npm start --verbose"
     networks:
       app-network:
         ipv4_address: 11.5.0.4
