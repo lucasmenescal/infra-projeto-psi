@@ -24,7 +24,7 @@ services:
     container_name: django
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./back/project:/workspace
+      - ./back/project/money-wise-api/:/workspace
     restart: always
     depends_on:
       - database
