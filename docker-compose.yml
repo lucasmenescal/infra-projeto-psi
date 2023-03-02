@@ -1,0 +1,61 @@
+
+version: '3'
+
+services:
+  database:
+    build:
+      context: ./database
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./database/db:/home/db
+    networks:
+      app-network:
+        ipv4_address: 11.5.0.2
+
+  back:
+    build: ./back
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./back/project:/workspace
+    restart: always
+    depends_on:
+      - database
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=database
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      app-network:
+        ipv4_address: 11.5.0.3
+
+  front:
+    build: ./front
+    container_name: react
+    depends_on:
+      - database
+    volumes:
+      - ./front/project:/workspace
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    networks:
+      app-network:
+        ipv4_address: 11.5.0.4
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 11.5.0.0/28
+          gateway: 11.5.0.1
