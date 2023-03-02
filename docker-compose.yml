@@ -46,7 +46,7 @@ services:
     volumes:
       - ./front/project:/workspace
     ports:
-      - "3000:3000"
+      - "3003:3000"
     stdin_open: true
     networks:
       app-network:
